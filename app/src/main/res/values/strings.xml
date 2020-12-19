@@ -12,4 +12,8 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="nav_menu_search">Search</string>
     <string name="nav_menu_profile">Profile</string>
+
+    <string name="facebook_application_id">865325377288091</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb865325377288091</string>
+    <string name="sign_out_title">Sign Out</string>
 </resources>
