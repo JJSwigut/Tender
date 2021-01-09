@@ -2,4 +2,5 @@
 <resources>
     <string name="nav_menu_profile">Profile</string>
     <string name="sign_out_title">Sign Out</string>
+    <string name="profile_email_hint">Email</string>
 </resources>

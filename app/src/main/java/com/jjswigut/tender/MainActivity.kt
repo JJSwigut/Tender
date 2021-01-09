@@ -85,9 +85,10 @@ class MainActivity : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
+
                 Log.d(TAG, "onActivityResult: $user")
             } else {
-                Log.d(TAG, "onActivityResult: You failed, dummy")
+                Log.d(TAG, "onActivityResult: You failed")
             }
         }
     }
