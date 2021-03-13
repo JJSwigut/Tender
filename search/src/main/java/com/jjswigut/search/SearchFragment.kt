@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.jjswigut.search.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
@@ -20,11 +19,9 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        searchViewModel.text.observe(viewLifecycleOwner, Observer {
-            binding.textSlideshow.text = it
-        })
+
         return binding.root
     }
 
