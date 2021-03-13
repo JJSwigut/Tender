@@ -1,13 +1,20 @@
 package com.jjswigut.tender.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
+import com.jjswigut.tender.ui.FirebaseUserLiveData
 
 class ProfileViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Profile Fragment"
+    enum class AuthenticationState {
+        AUTHENTICATED, UNAUTHENTICATED
     }
-    val text: LiveData<String> = _text
+
+    val authenticationState = FirebaseUserLiveData().map { user ->
+        if (user != null) {
+            AuthenticationState.AUTHENTICATED
+        } else {
+            AuthenticationState.UNAUTHENTICATED
+        }
+    }
 }
