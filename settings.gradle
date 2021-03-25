@@ -1,2 +1,7 @@
+include ':data'
+include ':networking'
 include ':app'
+include ':home'
+include ':profile'
+include ':search'
 rootProject.name = "Tender"
