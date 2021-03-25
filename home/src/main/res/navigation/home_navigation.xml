@@ -10,5 +10,5 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.jjswigut.home.HomeFragment"
-        android:label="Home Fragment" />
+        android:label="@string/menu_home" />
 </navigation>

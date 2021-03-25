@@ -1,5 +1,5 @@
+include ':core'
 include ':data'
-include ':networking'
 include ':app'
 include ':home'
 include ':profile'

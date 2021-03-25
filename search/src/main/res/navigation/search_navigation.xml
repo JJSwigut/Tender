@@ -9,6 +9,26 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.jjswigut.search.SearchFragment"
-        android:label="Search Fragment" />
+        android:name="com.jjswigut.search.ui.SearchFragment"
+        android:label="@string/nav_menu_search">
+        <action
+            android:id="@+id/action_searchFragment_to_restaurantListFragment"
+            app:destination="@id/restaurantListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/restaurantListFragment"
+        android:name="com.jjswigut.search.ui.RestaurantListFragment">
+        <argument
+            android:name="foodType"
+            app:argType="string" />
+        <argument
+            android:name="radius"
+            app:argType="integer" />
+        <argument
+            android:name="lat"
+            app:argType="float" />
+        <argument
+            android:name="lon"
+            app:argType="float" />
+    </fragment>
 </navigation>
