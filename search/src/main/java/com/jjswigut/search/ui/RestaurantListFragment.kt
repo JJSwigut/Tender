@@ -66,10 +66,6 @@ class RestaurantListFragment : Fragment() {
         viewModel.saveLikedRestaurants(action)
     }
 
-    private fun handleRewind() {
-
-    }
-
 
     private fun setupCardStackView() {
         listAdapter.cardManager.setStackFrom(StackFrom.Top)
@@ -109,8 +105,8 @@ class RestaurantListFragment : Fragment() {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

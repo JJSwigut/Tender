@@ -33,12 +33,12 @@ class LocationHelper {
         )
     }
 
-    fun getLocationPermission(context: Context, activity: Activity): Boolean {
+    fun getLocationPermission(activity: Activity): Boolean {
         if (ActivityCompat.checkSelfPermission(
-                context,
+                activity,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                context,
+                activity,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -51,15 +51,14 @@ class LocationHelper {
     @SuppressLint("MissingPermission")
     fun getLastLocation(
         flc: FusedLocationProviderClient,
-        context: Context,
         activity: Activity
     ) {
-        if (getLocationPermission(context, activity)) {
+        if (getLocationPermission(activity)) {
             flc.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
                     userLocation = location
                 } else {
-                    requestCurrentLocation(flc, context)
+                    requestCurrentLocation(flc, activity)
                 }
             }
         } else requestLocationPermission(activity)

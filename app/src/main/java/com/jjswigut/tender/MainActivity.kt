@@ -25,16 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val appBarConfiguration: AppBarConfiguration by lazy {
-        AppBarConfiguration.Builder(
-            setOf(
-                R.id.home_navigation,
-                R.id.search_navigation,
-                R.id.profile_navigation
-            )
-        ).build()
-    }
-
     private val viewModel: MainActivityViewModel by viewModels()
 
     private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
@@ -46,7 +36,13 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val btmNavMain = findViewById<BottomNavigationView>(R.id.btm_nav_main)
-
+        val appBarConfiguration: AppBarConfiguration = AppBarConfiguration.Builder(
+            setOf(
+                R.id.home_navigation,
+                R.id.search_navigation,
+                R.id.profile_navigation
+            )
+        ).build()
         btmNavMain.setupWithNavController(navController)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
@@ -80,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 launchSignIn()
             }
         }
-        return false
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
