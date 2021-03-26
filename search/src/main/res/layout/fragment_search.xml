@@ -4,11 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.slider.RangeSlider
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/call_to_action"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/foodType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/foodType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/chinese"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/radius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="within 5 mi"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@id/radiusSelector"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.slider.Slider
         android:id="@+id/radiusSelector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginBottom="8dp"
         android:stepSize="1.0"
         android:valueFrom="1"
         android:valueTo="10"
@@ -41,43 +80,50 @@
                 android:id="@+id/chinese_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Chinese" />
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/chinese" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bbq_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="BBQ" />
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/bbq" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/italian_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Italian" />
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/italian" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deli_button"
                 android:layout_width="96dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Deli" />
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/deli" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/coffee_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Coffee" />
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/coffee" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/american_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="American" />
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/american" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/breakfast_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/button_margin"
+                android:text="@string/breakfast" />
 
         </LinearLayout>
     </HorizontalScrollView>
@@ -87,10 +133,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:layout_marginTop="8dp"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scrollView"
-
-        />
+        app:layout_constraintTop_toBottomOf="@id/scrollView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

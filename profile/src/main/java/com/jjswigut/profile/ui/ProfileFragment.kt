@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import coil.load
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
@@ -37,7 +39,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,7 +72,7 @@ class ProfileFragment : Fragment() {
             currentUser?.displayName?.toEditable()
         binding.emailTextview.text =
             currentUser?.email?.toEditable()
-        binding.profilePic.setImageURI(currentUser?.photoUrl)
+        binding.profilePic.load(currentUser?.photoUrl)
     }
 
     private fun updateEmail() {
@@ -108,6 +110,7 @@ class ProfileFragment : Fragment() {
                         }
                     withContext(Dispatchers.Main) {
                         toast("You've successfully changed your profile picture!")
+                        binding.profilePic.load(currentImage)
                     }
                 }
             } catch (e: Exception) {
@@ -130,9 +133,7 @@ class ProfileFragment : Fragment() {
             data?.data?.let { uri ->
                 currentImage = uri
             }
-        binding.profilePic.setImageURI(currentImage)
         uploadProfilePicToStorage("$currentUser.profile")
-
 
     }
 

@@ -6,4 +6,5 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="card_margin">32dp</dimen>
     <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="textview_padding">4dp</dimen>
 </resources>

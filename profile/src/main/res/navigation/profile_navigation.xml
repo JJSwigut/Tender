@@ -10,5 +10,5 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.jjswigut.profile.ui.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="@string/nav_menu_profile" />
 </navigation>
