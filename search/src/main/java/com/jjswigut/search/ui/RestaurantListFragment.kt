@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.jjswigut.search.databinding.FragmentRestaurantlistBinding
 import com.jjswigut.search.presentation.CardAction
@@ -16,14 +15,16 @@ import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.StackFrom
 import com.yuyakaido.android.cardstackview.SwipeableMethod
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class RestaurantListFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel: RestaurantListViewModel by viewModels { viewModelFactory }
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelProvider.Factory
+//    private val viewModel: RestaurantListViewModel by viewModels { viewModelFactory }
+
+    private val viewModel: RestaurantListViewModel by activityViewModels<RestaurantListViewModel>()
 
     private lateinit var listAdapter: RestaurantListAdapter
     private val args: RestaurantListFragmentArgs by navArgs()
@@ -58,8 +59,6 @@ class RestaurantListFragment : Fragment() {
             binding.cardStack.rewind()
 
         }
-
-
     }
 
     private fun handleSwipe(action: CardAction) {
@@ -69,11 +68,11 @@ class RestaurantListFragment : Fragment() {
 
     private fun setupCardStackView() {
         listAdapter.cardManager.setStackFrom(StackFrom.Top)
-        listAdapter.cardManager.setVisibleCount(5)
+        listAdapter.cardManager.setVisibleCount(10)
         listAdapter.cardManager.setTranslationInterval(12.0f)
         listAdapter.cardManager.setScaleInterval(0.85f)
         listAdapter.cardManager.setSwipeThreshold(0.3f)
-        listAdapter.cardManager.setMaxDegree(20.0f)
+        listAdapter.cardManager.setMaxDegree(30.0f)
         listAdapter.cardManager.setDirections(Direction.HORIZONTAL)
         listAdapter.cardManager.setCanScrollHorizontal(true)
         listAdapter.cardManager.setCanScrollVertical(true)
@@ -86,21 +85,11 @@ class RestaurantListFragment : Fragment() {
 
     private fun getRestaurants() {
         viewModel.getRestaurants(args.foodType, args.radius, args.lat, args.lon)
-            .observe(viewLifecycleOwner, {
-                if (!it.data.isNullOrEmpty()) {
-                    viewModel.restaurantListLiveData.value = it.data
-                    val list = it.data
-                    if (list != null) {
-                        this.listAdapter.updateData(list)
-                    }
-
-                }
-            })
     }
 
     private fun observeRestaurants() {
-        viewModel.restaurantListLiveData.observe(viewLifecycleOwner, {
-            listAdapter.updateData(it)
+        viewModel.restaurantListLiveData.observe(viewLifecycleOwner, { businessList ->
+            businessList?.let { listAdapter.updateData(businessList) }
         })
     }
 

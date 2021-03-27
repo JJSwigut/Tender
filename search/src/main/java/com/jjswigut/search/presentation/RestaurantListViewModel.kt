@@ -2,13 +2,15 @@ package com.jjswigut.search.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.jjswigut.core.utils.Resource
+import androidx.lifecycle.viewModelScope
 import com.jjswigut.data.RestaurantRepository
 import com.jjswigut.data.models.BusinessList
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RestaurantListViewModel @Inject constructor(
     private val repo: RestaurantRepository
 ) : ViewModel() {
@@ -19,12 +21,11 @@ class RestaurantListViewModel @Inject constructor(
     val likedRestaurants = arrayListOf<BusinessList.Businesses>()
 
     fun getRestaurants(foodType: String, radius: Int, lat: Float, lon: Float) =
-        liveData(Dispatchers.IO) {
-            emit(Resource.loading(data = null))
-            try {
-                emit(Resource.success(data = repo.getRestaurants(foodType, radius, lat, lon)))
-            } catch (exception: Exception) {
-                emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+        viewModelScope.launch {
+            repo.getRestaurants(foodType, radius, lat, lon).collect { businesses ->
+                if (businesses != null) {
+                    restaurantListLiveData.value = businesses.data?.businesses
+                }
             }
         }
 
