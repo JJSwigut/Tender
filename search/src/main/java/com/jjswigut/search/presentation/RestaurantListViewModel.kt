@@ -1,5 +1,6 @@
 package com.jjswigut.search.presentation
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +17,8 @@ class RestaurantListViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    val restaurantListLiveData = MutableLiveData<List<BusinessList.Businesses>>()
+    private val _restaurantListLiveData = MutableLiveData<List<BusinessList.Businesses>>()
+    val restaurantListLiveData: LiveData<List<BusinessList.Businesses>> get() = _restaurantListLiveData
 
     val likedRestaurants = arrayListOf<BusinessList.Businesses>()
 
@@ -24,7 +26,7 @@ class RestaurantListViewModel @Inject constructor(
         viewModelScope.launch {
             repo.getRestaurants(foodType, radius, lat, lon).collect { businesses ->
                 if (businesses != null) {
-                    restaurantListLiveData.value = businesses.data?.businesses
+                    _restaurantListLiveData.value = businesses.data?.businesses
                 }
             }
         }

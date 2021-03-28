@@ -20,11 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RestaurantListFragment : Fragment() {
 
-//    @Inject
-//    lateinit var viewModelFactory: ViewModelProvider.Factory
-//    private val viewModel: RestaurantListViewModel by viewModels { viewModelFactory }
-
-    private val viewModel: RestaurantListViewModel by activityViewModels<RestaurantListViewModel>()
+    private val viewModel: RestaurantListViewModel by activityViewModels()
 
     private lateinit var listAdapter: RestaurantListAdapter
     private val args: RestaurantListFragmentArgs by navArgs()

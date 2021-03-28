@@ -17,7 +17,7 @@ class SearchViewModel : ViewModel() {
         value = "Chinese"
     }
 
-    fun radiusInMeters(radius: MutableLiveData<Int>): Int? {
+    private fun radiusInMeters(radius: MutableLiveData<Int>): Int? {
         return radius.value?.times(1609)
     }
 
