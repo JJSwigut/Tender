@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/userCardView"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_gravity="center"
+    android:layout_margin="8dp"
+    android:checkable="true"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/secondaryLightColor"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/cardview_elevation"
+    app:checkedIconTint="@color/primaryLightColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/userProfilePhoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:padding="@dimen/extra_small_padding"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/userNameView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/circleImageView" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/userNameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/extra_small_padding"
+            android:textColor="@color/secondaryTextColor"
+            android:textSize="@dimen/body_text"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userProfilePhoto" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

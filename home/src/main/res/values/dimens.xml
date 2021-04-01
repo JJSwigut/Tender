@@ -1,4 +1,12 @@
 <resources>
     <dimen name="card_margin">32dp</dimen>
     <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="small_padding">4dp</dimen>
+    <dimen name="standard_margin">16dp</dimen>
+    <dimen name="regular_header">20sp</dimen>
+    <dimen name="giant_header">40sp</dimen>
+    <dimen name="cardview_elevation">16dp</dimen>
+    <dimen name="body_text">14sp</dimen>
+    <dimen name="extra_small_padding">2dp</dimen>
+    <dimen name="medium_padding">8dp</dimen>
 </resources>

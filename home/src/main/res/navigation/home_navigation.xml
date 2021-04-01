@@ -10,5 +10,27 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.jjswigut.home.HomeFragment"
-        android:label="@string/menu_home" />
+        android:label="Home">
+        <action
+            android:id="@+id/action_homeFragment_to_createGroupDialogFragment"
+            app:destination="@id/createGroupDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <dialog
+        android:id="@+id/createGroupDialogFragment"
+        android:name="com.jjswigut.home.CreateGroupDialogFragment">
+        <action
+            android:id="@+id/action_createGroupDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="dialogType"
+            app:argType="integer" />
+        <argument
+            android:name="groupId"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
 </navigation>

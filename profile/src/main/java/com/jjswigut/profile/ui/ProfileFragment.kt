@@ -16,6 +16,8 @@ import coil.load
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.jjswigut.profile.databinding.FragmentProfileBinding
@@ -34,6 +36,7 @@ class ProfileFragment : Fragment() {
 
     private var currentImage: Uri? = null
     private val imageRef = Firebase.storage.reference
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -106,6 +109,15 @@ class ProfileFragment : Fragment() {
                                     photoUri = downloadUrl
                                 }
                                 currentUser?.updateProfile(profileUpdate)
+
+                                val photoData =
+                                    hashMapOf("profilePhotoUrl" to downloadUrl.toString())
+                                currentUser?.let {
+                                    db.collection("users").document(currentUser.uid).set(
+                                        photoData,
+                                        SetOptions.merge()
+                                    )
+                                }
                             }
                         }
                     withContext(Dispatchers.Main) {
@@ -137,8 +149,8 @@ class ProfileFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

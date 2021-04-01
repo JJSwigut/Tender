@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:paddingVertical="32dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/groupDialogFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/primaryLightColor"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/cardview_elevation">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/groupNameInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:hint="@string/group_name_hint"
+                app:hintEnabled="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameInputTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textSize="@dimen/regular_header"
+                    android:textStyle="bold"
+                    tools:text="The Kittens" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/createGroupRecycler"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:foregroundGravity="fill_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/small_padding"
+                app:layout_constraintBottom_toTopOf="@id/createGroupButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/groupNameInputLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createGroupButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:text="@string/create_group_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>

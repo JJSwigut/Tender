@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eventCard"
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="@dimen/cardview_elevation"
+    app:strokeColor="@color/primaryDarkColor"
+    app:strokeWidth="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/foodTypeView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/small_padding"
+            android:text="@string/find_some"
+            android:textSize="@dimen/body_text" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/small_padding"
+            android:text="with"
+            android:textSize="@dimen/body_text" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/groupNameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/small_padding"
+            android:textSize="@dimen/body_text"
+            tools:text="The Kittens" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dateView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/small_padding"
+            android:textSize="@dimen/body_text"
+            tools:text="November 3rd, 2021" />
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
