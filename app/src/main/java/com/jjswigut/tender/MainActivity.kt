@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .setTheme(R.style.LoginTheme)
+                .setIsSmartLockEnabled(false)
                 .build(),
             RC_SIGN_IN
         )

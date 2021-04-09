@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.jjswigut.core.base.BaseFragment
 import com.jjswigut.search.databinding.FragmentRestaurantlistBinding
 import com.jjswigut.search.presentation.CardAction
 import com.jjswigut.search.presentation.RestaurantListAdapter
@@ -18,9 +18,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class RestaurantListFragment : Fragment() {
+class RestaurantListFragment : BaseFragment<RestaurantListViewModel>() {
 
-    private val viewModel: RestaurantListViewModel by activityViewModels()
+    override val viewModel: RestaurantListViewModel by activityViewModels()
 
     private lateinit var listAdapter: RestaurantListAdapter
     private val args: RestaurantListFragmentArgs by navArgs()
@@ -28,11 +28,9 @@ class RestaurantListFragment : Fragment() {
     private var _binding: FragmentRestaurantlistBinding? = null
     private val binding get() = _binding!!
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         listAdapter = RestaurantListAdapter(::handleSwipe, viewModel, requireContext())
-
     }
 
     override fun onCreateView(
@@ -47,6 +45,7 @@ class RestaurantListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        startBuildingEvent()
         setupCardStackView()
         getRestaurants()
         observeRestaurants()
@@ -59,23 +58,27 @@ class RestaurantListFragment : Fragment() {
 
     private fun handleSwipe(action: CardAction) {
         viewModel.saveLikedRestaurants(action)
+
     }
 
 
     private fun setupCardStackView() {
-        listAdapter.cardManager.setStackFrom(StackFrom.Top)
-        listAdapter.cardManager.setVisibleCount(10)
-        listAdapter.cardManager.setTranslationInterval(12.0f)
-        listAdapter.cardManager.setScaleInterval(0.85f)
-        listAdapter.cardManager.setSwipeThreshold(0.3f)
-        listAdapter.cardManager.setMaxDegree(30.0f)
-        listAdapter.cardManager.setDirections(Direction.HORIZONTAL)
-        listAdapter.cardManager.setCanScrollHorizontal(true)
-        listAdapter.cardManager.setCanScrollVertical(true)
-        listAdapter.cardManager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
-        binding.cardStack.adapter = listAdapter
-        binding.cardStack.layoutManager = listAdapter.cardManager
-
+        with(listAdapter.cardManager) {
+            setStackFrom(StackFrom.Top)
+            setVisibleCount(10)
+            setTranslationInterval(12.0f)
+            setScaleInterval(0.85f)
+            setSwipeThreshold(0.3f)
+            setMaxDegree(30.0f)
+            setDirections(Direction.HORIZONTAL)
+            setCanScrollHorizontal(true)
+            setCanScrollVertical(true)
+            setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+        }
+        with(binding.cardStack) {
+            adapter = listAdapter
+            layoutManager = listAdapter.cardManager
+        }
     }
 
 
@@ -87,6 +90,19 @@ class RestaurantListFragment : Fragment() {
         viewModel.restaurantListLiveData.observe(viewLifecycleOwner, { businessList ->
             businessList?.let { listAdapter.updateData(businessList) }
         })
+    }
+
+    private fun startBuildingEvent() {
+        if (args.groupId != "0") {
+            viewModel.isEventStarted = true
+            with(viewModel.eventBeingBuilt) {
+                groupId = args.groupId
+                groupName = args.groupName
+                date = args.date
+                foodType = args.foodType
+            }
+
+        }
     }
 
 

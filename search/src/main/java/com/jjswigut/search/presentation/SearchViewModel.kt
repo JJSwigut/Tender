@@ -1,12 +1,10 @@
 package com.jjswigut.search.presentation
 
-import android.view.View
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
+import com.jjswigut.core.base.BaseViewModel
 import com.jjswigut.search.ui.SearchFragmentDirections
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel : BaseViewModel() {
 
 
     val searchRadius = MutableLiveData<Int>().apply {
@@ -21,19 +19,34 @@ class SearchViewModel : ViewModel() {
         return radius.value?.times(1609)
     }
 
-    fun navigateToCardStackWithQueryParams(
-        view: View,
+    fun navigateToCardStackWithoutEvent(
         lat: Float,
         lon: Float
     ) {
         val foodType = foodSelection.value
         val radius = radiusInMeters(searchRadius)
-        view.findNavController()
-            .navigate(
-                SearchFragmentDirections.actionSearchFragmentToRestaurantListFragment(
-                    foodType!!, radius!!, lat, lon
-                )
+        navigate(
+            SearchFragmentDirections.actionSearchFragmentToRestaurantListFragment(
+                foodType!!, radius!!, lat, lon
             )
+        )
+
+    }
+
+    fun navigateToCardStackWithEvent(
+        lat: Float,
+        lon: Float,
+        groupName: String,
+        groupId: String,
+        date: String
+    ) {
+        val foodType = foodSelection.value
+        val radius = radiusInMeters(searchRadius)
+        navigate(
+            SearchFragmentDirections.actionSearchFragmentToRestaurantListFragment(
+                foodType!!, radius!!, lat, lon, groupName, groupId, date
+            )
+        )
 
     }
 

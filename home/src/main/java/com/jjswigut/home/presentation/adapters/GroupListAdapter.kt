@@ -8,12 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jjswigut.core.utils.ListDiffCallback
 import com.jjswigut.data.models.Group
 import com.jjswigut.home.HomeFragmentDirections
-import com.jjswigut.home.HomeViewModel
 import com.jjswigut.home.databinding.GroupCardBinding
 
-class GroupListAdapter(
-    private val viewModel: HomeViewModel
-) : RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
+class GroupListAdapter : RecyclerView.Adapter<GroupListAdapter.ViewHolder>() {
 
 
     private val elements: ArrayList<Group> = arrayListOf()

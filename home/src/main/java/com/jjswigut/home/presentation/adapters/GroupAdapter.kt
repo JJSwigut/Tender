@@ -10,10 +10,10 @@ import coil.load
 import com.jjswigut.core.utils.ListDiffCallback
 import com.jjswigut.data.models.User
 import com.jjswigut.home.databinding.UserItemBinding
-import com.jjswigut.home.presentation.CreateGroupDialogViewModel
+import com.jjswigut.home.presentation.GroupDialogViewModel
 
-class CreateGroupAdapter(private val viewModel: CreateGroupDialogViewModel) :
-    RecyclerView.Adapter<CreateGroupAdapter.ViewHolder>() {
+class GroupAdapter(private val viewModel: GroupDialogViewModel) :
+    RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
 
     private val elements: ArrayList<User> = arrayListOf()
@@ -64,14 +64,21 @@ class CreateGroupAdapter(private val viewModel: CreateGroupDialogViewModel) :
         fun bind(item: User) {
             imageView.load(element().profilePhotoUrl)
             nameView.text = element().name
-            cardView.setOnClickListener {
-                cardView.isChecked = !cardView.isChecked
-                if (cardView.isChecked) {
-                    viewModel.newGroupUserList.add(element())
-                } else viewModel.newGroupUserList.remove(element())
-                Log.d(TAG, "bind: ${viewModel.newGroupUserList}")
-            }
 
+            if (viewModel.isModifyDialog) {
+                cardView.isCheckable = false
+                cardView.isClickable = false
+            } else {
+                cardView.isCheckable = true
+                cardView.isClickable = true
+                cardView.setOnClickListener {
+                    cardView.isChecked = !cardView.isChecked
+                    if (cardView.isChecked) {
+                        viewModel.newGroupUserList.add(element())
+                    } else viewModel.newGroupUserList.remove(element())
+                    Log.d(TAG, "bind: ${viewModel.newGroupUserList}")
+                }
+            }
         }
     }
 

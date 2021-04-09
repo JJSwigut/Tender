@@ -10,8 +10,7 @@
     android:focusable="true"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/cardview_elevation"
-    app:strokeColor="@color/primaryDarkColor"
-    app:strokeWidth="2dp">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,10 +21,11 @@
             android:id="@+id/groupNameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center_vertical|center_horizontal"
             android:padding="@dimen/small_padding"
             android:textSize="32sp"
             android:textStyle="bold"
+            android:textColor="@color/secondaryTextColor"
             tools:text="The Kittens" />
 
     </LinearLayout>

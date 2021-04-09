@@ -4,31 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.jjswigut.core.base.BaseFragment
 import com.jjswigut.home.databinding.FragmentHomeBinding
 import com.jjswigut.home.presentation.adapters.EventListAdapter
 import com.jjswigut.home.presentation.adapters.GroupListAdapter
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val homeViewModel: HomeViewModel by activityViewModels()
+    override val viewModel: HomeViewModel by activityViewModels()
 
     private lateinit var groupAdapter: GroupListAdapter
     private lateinit var eventAdapter: EventListAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        groupAdapter = GroupListAdapter(homeViewModel)
-        eventAdapter = EventListAdapter(homeViewModel)
-        homeViewModel.getListOfGroups(groupAdapter)
+        groupAdapter = GroupListAdapter()
+        eventAdapter = EventListAdapter(viewModel)
+        viewModel.getListOfGroups()
     }
 
     override fun onCreateView(
@@ -43,39 +41,84 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupObservers()
         setupRecyclers()
         binding.addGroupButton.setOnClickListener {
-            createGroupDialogue(view)
+            createGroupDialog()
         }
-        binding.welcomeHeader.text = getString(R.string.welcome_message, currentUser?.displayName)
+        binding.addEventButton.setOnClickListener {
+            createEventDialog()
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
     }
 
-    private fun createGroupDialogue(view: View) {
-        view.findNavController().navigate(
+    private fun createGroupDialog() {
+        viewModel.navigate(
             HomeFragmentDirections.actionHomeFragmentToCreateGroupDialogFragment(
                 createGroup, null
             )
         )
     }
 
+    private fun createEventDialog() {
+        viewModel.navigate(
+            HomeFragmentDirections.actionHomeFragmentToEventDialogFragment()
+        )
+    }
+
+
     private fun setupRecyclers() {
-        binding.groupRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.groupRecyclerView.adapter = groupAdapter
+        with(binding) {
+            groupRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            groupRecyclerView.adapter = groupAdapter
 
-        binding.eventRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.eventRecyclerView.adapter = eventAdapter
+            eventRecyclerView.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            eventRecyclerView.adapter = eventAdapter
+        }
+    }
 
+    private fun setupObservers() {
+        observeAuthentication()
+        observeGroups()
+        observeMatchingEvents()
+    }
+
+    private fun observeAuthentication() {
+        viewModel.authenticationState.observe(viewLifecycleOwner, { authState ->
+            when (authState) {
+                HomeViewModel.AuthenticationState.AUTHENTICATED -> {
+                    binding.welcomeHeader.text = getString(
+                        R.string.welcome_message,
+                        FirebaseAuth.getInstance().currentUser?.displayName
+                    )
+                }
+                else -> binding.welcomeHeader.text = getString(R.string.welcome_message, "friend")
+            }
+        })
+    }
+
+
+    private fun observeGroups() {
+        viewModel.groupLiveData.observe(viewLifecycleOwner, { groups ->
+            groups?.let { groupAdapter.updateData(it) }
+        })
+    }
+
+    private fun observeMatchingEvents() {
+        viewModel.matchingEventLiveData.observe(viewLifecycleOwner, { events ->
+            events?.let { eventAdapter.updateData(it) }
+        })
     }
 
     companion object {
-        private val currentUser = FirebaseAuth.getInstance().currentUser
         const val createGroup = 0
     }
 }

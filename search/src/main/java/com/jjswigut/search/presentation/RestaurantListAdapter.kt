@@ -1,15 +1,19 @@
 package com.jjswigut.search.presentation
 
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jjswigut.core.utils.ListDiffCallback
 import com.jjswigut.data.models.BusinessList
 import com.jjswigut.search.databinding.ItemRestaurantBinding
+import com.jjswigut.search.ui.RestaurantListFragmentDirections
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
@@ -17,7 +21,7 @@ import com.yuyakaido.android.cardstackview.Direction
 class RestaurantListAdapter(
     private val swipeHandler: CardSwipeHandler,
     private val viewModel: RestaurantListViewModel,
-    context: Context
+    private val context: Context
 ) : RecyclerView.Adapter<RestaurantListAdapter.ViewHolder>(), CardStackListener {
 
     val cardManager = CardStackLayoutManager(context, this)
@@ -73,11 +77,8 @@ class RestaurantListAdapter(
             ratingView.text = "Rating: ${element().rating}"
             priceView.text = "Price: ${element().price}"
 
-
         }
-
     }
-
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {}
 
@@ -85,15 +86,43 @@ class RestaurantListAdapter(
         if (direction == Direction.Right) {
             swipeHandler(
                 CardAction.CardSwiped(
-                    cardManager.topPosition,
-                    elements[cardManager.topPosition]
+                    cardManager.topPosition - 1,
+                    elements[cardManager.topPosition - 1]
                 )
             )
+        }
+        if (cardManager.topPosition - 1 == elements.size - 1) {
+            with(AlertDialog.Builder(context)) {
+                setMessage("Would you like to use these results?")
+                setNegativeButton(
+                    "Nah"
+                ) { dialog, id ->
+                    viewModel.navigate(RestaurantListFragmentDirections.actionRestaurantListFragmentToSearchFragment())
+                }
+                setPositiveButton("Sure!") { dialog, id ->
+                    with(viewModel) {
+                        eventBeingBuilt.restaurantList = elements
+                        eventBeingBuilt.userChoices =
+                            arrayListOf(Pair(currentUser, likedRestaurants))
+                        createEventInFirestore()
+                        if (isEventStarted) {
+                            navigateToHomeFragment()
+                        } else navigateToEventDialog()
+                    }
+                }
+                create()
+                show()
+            }
         }
     }
 
     override fun onCardRewound() {
-        viewModel.likedRestaurants.remove(elements[cardManager.topPosition])
+        swipeHandler(
+            CardAction.CardRewound(
+                cardManager.topPosition, elements[cardManager.topPosition]
+            )
+        )
+        Log.d(TAG, "onCardRewound: ${elements[cardManager.topPosition]}")
     }
 
     override fun onCardCanceled() {}
@@ -102,4 +131,5 @@ class RestaurantListAdapter(
 }
 
 
-typealias CardSwipeHandler = (CardAction.CardSwiped) -> Unit
+
+typealias CardSwipeHandler = (CardAction) -> Unit

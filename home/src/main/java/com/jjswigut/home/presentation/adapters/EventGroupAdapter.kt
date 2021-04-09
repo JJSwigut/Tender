@@ -5,22 +5,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jjswigut.core.utils.ListDiffCallback
-import com.jjswigut.data.models.MatchingEvent
-import com.jjswigut.home.HomeViewModel
-import com.jjswigut.home.databinding.EventCardBinding
+import com.jjswigut.data.models.Group
+import com.jjswigut.home.databinding.GroupCardBinding
+import com.jjswigut.home.presentation.EventDialogViewModel
 
-class EventListAdapter(
-    private val viewModel: HomeViewModel
-) : RecyclerView.Adapter<EventListAdapter.ViewHolder>() {
+class EventGroupAdapter(
+    private val viewModel: EventDialogViewModel
+) : RecyclerView.Adapter<EventGroupAdapter.ViewHolder>() {
 
-    private val elements: ArrayList<MatchingEvent> = arrayListOf()
+
+    private val elements: ArrayList<Group> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
         return ViewHolder(
-            binding = EventCardBinding.inflate(
+            binding = GroupCardBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -36,7 +37,7 @@ class EventListAdapter(
 
     override fun getItemCount(): Int = elements.size
 
-    fun updateData(newData: List<MatchingEvent>) {
+    fun updateData(newData: List<Group>) {
 
         val diffResult = DiffUtil.calculateDiff(
             ListDiffCallback(newList = newData, oldList = elements)
@@ -47,23 +48,21 @@ class EventListAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: EventCardBinding,
-        private val elements: List<MatchingEvent>
+        private val binding: GroupCardBinding,
+        private val elements: List<Group>
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val foodTypeView = binding.foodTypeView
+        private val groupCard = binding.groupCard
         private val groupNameView = binding.groupNameView
-        private val dateView = binding.dateView
         private fun element() = elements[adapterPosition]
 
-
-        fun bind(item: MatchingEvent) {
-            foodTypeView.text = element().foodType
+        fun bind(item: Group) {
             groupNameView.text = element().groupName
-            dateView.text = element().date.toString()
-
-
+            groupCard.setOnClickListener {
+                viewModel.group = element()
+                viewModel.groupSelection.value = element().groupName
+            }
         }
-
     }
+
 }

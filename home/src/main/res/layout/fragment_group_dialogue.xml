@@ -35,7 +35,6 @@
                     android:id="@+id/groupNameInputTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:gravity="center"
                     android:maxLines="1"
                     android:textSize="@dimen/regular_header"
@@ -65,7 +64,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteGroupButton"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone"
+                app:icon="@drawable/ic_delete"
+                app:iconGravity="start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+
 </RelativeLayout>

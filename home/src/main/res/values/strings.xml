@@ -8,4 +8,11 @@
     <string name="find_some">Find some %1$s</string>
     <string name="group_name_hint">Enter a name for your group!</string>
     <string name="create_group_button">Create Group</string>
+    <string name="update_group_button">Update Group</string>
+    <string name="delete_group_toast">Your group is no more!</string>
+    <string name="failure_toast">Something went wrong. Try again!</string>
+    <string name="create_event_button">Create Event</string>
+    <string name="choose_date_button">Choose Date</string>
+    <string name="lets_eat_with">Let\'s eat with %1$s</string>
+    <string name="on_date">on %1$s</string>
 </resources>

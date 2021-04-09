@@ -1,42 +1,66 @@
 package com.jjswigut.home
 
-import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.FirebaseFirestore
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.google.firebase.firestore.ktx.toObject
-import com.jjswigut.data.models.Event
+import com.jjswigut.core.base.BaseViewModel
+import com.jjswigut.core.utils.FirebaseUserLiveData
+import com.jjswigut.data.FirestoreRepository
 import com.jjswigut.data.models.Group
-import com.jjswigut.home.presentation.adapters.EventListAdapter
-import com.jjswigut.home.presentation.adapters.GroupListAdapter
+import com.jjswigut.data.models.MatchingEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repo: FirestoreRepository
+) : BaseViewModel() {
 
-    private val db = FirebaseFirestore.getInstance()
+    private val _groupLiveData = MutableLiveData<List<Group>>()
+    val groupLiveData: LiveData<List<Group>> get() = _groupLiveData
 
-    private val groupList = arrayListOf<Group>()
+    private val _matchingEventLiveData = MutableLiveData<List<MatchingEvent>>()
+    val matchingEventLiveData: LiveData<List<MatchingEvent>> get() = _matchingEventLiveData
 
-    private val eventList = arrayListOf<Event>()
 
-    fun getListOfGroups(adapter: GroupListAdapter) {
-        db.collection("groups")
-            .get()
+    fun getListOfGroups() {
+        repo.getAllGroups()
             .addOnSuccessListener { result ->
-                groupList.clear()
+                val groupList = arrayListOf<Group>()
                 for (document in result) {
                     groupList.add(document.toObject())
                 }
-                adapter.updateData(groupList)
+                _groupLiveData.value = groupList
             }
     }
 
-    fun getListOfUsers(adapter: EventListAdapter) {
-        db.collection("events")
-            .get()
+    fun getListOfMatchingEvents() {
+        repo.getAllEvents()
             .addOnSuccessListener { result ->
-                eventList.clear()
+                val eventList = arrayListOf<MatchingEvent>()
                 for (document in result) {
                     eventList.add(document.toObject())
                 }
-                adapter.updateData(eventList)
+                _matchingEventLiveData.value = eventList
             }
+    }
+
+    enum class AuthenticationState {
+        AUTHENTICATED, UNAUTHENTICATED
+    }
+
+    val authenticationState = FirebaseUserLiveData().map { user ->
+        if (user != null) {
+            AuthenticationState.AUTHENTICATED
+        } else {
+            AuthenticationState.UNAUTHENTICATED
+        }
+    }
+
+    companion object {
+        const val groups = "groups"
+        const val events = "events"
     }
 }
