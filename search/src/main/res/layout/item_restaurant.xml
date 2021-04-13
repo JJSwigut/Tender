@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/restaurantName"
             android:gravity="center"
-            android:padding="@dimen/textview_padding"
+            android:layout_margin="@dimen/button_margin"
             android:textSize="20sp"
             tools:text="4.5" />
 
@@ -48,7 +48,7 @@
             android:layout_below="@id/restaurantName"
             android:layout_alignParentRight="true"
             android:gravity="center"
-            android:padding="@dimen/textview_padding"
+            android:layout_margin="@dimen/button_margin"
             android:textSize="20sp"
             tools:text="$$$" />
     </RelativeLayout>

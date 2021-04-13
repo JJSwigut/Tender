@@ -1,4 +1,4 @@
-package com.jjswigut.profile
+package com.jjswigut.core.utils
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth

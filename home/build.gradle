@@ -1,15 +1,26 @@
 apply from: "$rootDir/gradle/feature.gradle"
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
 
+    implementation project (":core")
+    implementation project (":data")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$core_ktx"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_livedata_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_viewmodel_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+
+    implementation "io.coil-kt:coil:$coil_version"
+
+    implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-storage-ktx"
+    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.firebaseui:firebase-ui-auth:$firebase_auth_version"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_fragment_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_ui_version"

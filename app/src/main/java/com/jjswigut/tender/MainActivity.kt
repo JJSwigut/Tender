@@ -20,10 +20,15 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -93,9 +98,8 @@ class MainActivity : AppCompatActivity() {
             viewModel.isSigningIn = false
             val response = IdpResponse.fromResultIntent(data)
             if (resultCode == Activity.RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-
-                Log.d(TAG, "onActivityResult: $user")
+                viewModel.saveUserToFirestore(auth.currentUser, db)
+                Log.d(TAG, "onActivityResult: ${auth.currentUser}")
             } else {
                 Log.d(TAG, "onActivityResult: You failed")
             }
@@ -114,6 +118,7 @@ class MainActivity : AppCompatActivity() {
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
                 .setTheme(R.style.LoginTheme)
+                .setIsSmartLockEnabled(false)
                 .build(),
             RC_SIGN_IN
         )

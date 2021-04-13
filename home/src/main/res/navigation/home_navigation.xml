@@ -10,5 +10,48 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.jjswigut.home.HomeFragment"
-        android:label="@string/menu_home" />
+        android:label="Home">
+        <action
+            android:id="@+id/action_homeFragment_to_createGroupDialogFragment"
+            app:destination="@id/GroupDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_homeFragment_to_eventDialogFragment"
+            app:destination="@id/eventDialogFragment" />
+        <deepLink
+            android:id="@+id/homeFragment"
+            app:uri="Tender://HomeFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/GroupDialogFragment"
+        android:name="com.jjswigut.home.GroupDialogFragment">
+        <action
+            android:id="@+id/action_createGroupDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="dialogType"
+            app:argType="integer" />
+        <argument
+            android:name="groupId"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/eventDialogFragment"
+        android:name="com.jjswigut.home.EventDialogFragment"
+        android:label="EventDialogFragment">
+        <action
+            android:id="@+id/action_eventDialogFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <deepLink
+            android:id="@+id/eventDialogFragment"
+            app:uri="Tender://EventDialogFragment?eventId={eventId}" />
+        <argument
+            android:name="eventId"
+            android:defaultValue="0"
+            app:argType="string" />
+    </dialog>
 </navigation>
