@@ -30,6 +30,7 @@ class RestaurantListFragment : BaseFragment<RestaurantListViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.resetMemberVariables()
         listAdapter = RestaurantListAdapter(::handleSwipe, viewModel, requireContext())
     }
 
@@ -74,6 +75,7 @@ class RestaurantListFragment : BaseFragment<RestaurantListViewModel>() {
             setCanScrollHorizontal(true)
             setCanScrollVertical(true)
             setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
+
         }
         with(binding.cardStack) {
             adapter = listAdapter

@@ -8,20 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import coil.load
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.jjswigut.core.base.BaseFragment
 import com.jjswigut.profile.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<ProfileViewModel>() {
 
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val profileViewModel: ProfileViewModel by viewModels()
+
+    override val viewModel: ProfileViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -44,26 +44,29 @@ class ProfileFragment : Fragment() {
     }
 
     private fun bindInfoToProfile() {
-        binding.usernameTextview.text =
-            currentUser?.displayName?.toEditable()
-        binding.emailTextview.text =
-            currentUser?.email?.toEditable()
-        binding.profilePic.load(currentUser?.photoUrl)
+        with(viewModel) {
+            binding.usernameTextview.text =
+                currentUser?.displayName?.toEditable()
+            binding.emailTextview.text =
+                currentUser?.email?.toEditable()
+            binding.profilePic.load(currentUser?.photoUrl)
+        }
     }
 
     private fun updateEmail() {
-        currentUser?.updateEmail(binding.emailTextview.text.toString())?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                toast("You're Email is Updated!")
-            } else toast("Email was not updated.")
-        }
+        viewModel.currentUser?.updateEmail(binding.emailTextview.text.toString())
+            ?.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    toast("You're Email is Updated!")
+                } else toast("Email was not updated.")
+            }
     }
 
     private fun updateUsername() {
         val newName = userProfileChangeRequest {
             displayName = binding.usernameTextview.text.toString()
         }
-        currentUser?.updateProfile(newName)?.addOnCompleteListener {
+        viewModel.currentUser?.updateProfile(newName)?.addOnCompleteListener {
             if (it.isSuccessful) {
                 toast("Username was updated!")
             } else toast("Username was not updated.")
@@ -81,10 +84,10 @@ class ProfileFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK)
             data?.data?.let { uri ->
-                profileViewModel.currentImage = uri
+                viewModel.currentImage = uri
             }
-        currentUser?.let {
-            profileViewModel.uploadProfilePicToStorage(
+        viewModel.currentUser?.let {
+            viewModel.uploadProfilePicToStorage(
                 requireContext(),
                 "$it.profile",
                 it,
@@ -96,6 +99,7 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
     }
 
     private fun toast(toast: String) {
@@ -106,6 +110,5 @@ class ProfileFragment : Fragment() {
 
     companion object {
         private const val PICK_IMAGE_REQUEST = 1
-        private val currentUser = FirebaseAuth.getInstance().currentUser
     }
 }

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jjswigut.core.R
 import com.jjswigut.core.base.BaseDialogFragment
+import com.jjswigut.core.utils.State
 import com.jjswigut.home.databinding.FragmentGroupDialogueBinding
 import com.jjswigut.home.presentation.GroupDialogViewModel
 import com.jjswigut.home.presentation.adapters.GroupAdapter
@@ -44,7 +46,7 @@ class GroupDialogFragment : BaseDialogFragment<GroupDialogViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
         discernFragmentUse()
-        viewModel.newGroupUserList.clear()
+
 
 
     }
@@ -64,6 +66,7 @@ class GroupDialogFragment : BaseDialogFragment<GroupDialogViewModel>() {
 
     private fun discernFragmentUse() {
         if (args.dialogType == createGroup) {
+            viewModel.isModifyDialog = false
             setupToCreateGroup()
         } else if (args.dialogType == modifyGroup) {
             viewModel.isModifyDialog = true
@@ -72,9 +75,10 @@ class GroupDialogFragment : BaseDialogFragment<GroupDialogViewModel>() {
     }
 
     private fun setupToCreateGroup() {
-        viewModel.getListOfAllUsers(adapter)
+        observeAllUsers()
         with(binding) {
             deleteGroupButton.visibility = View.GONE
+            viewModel.newGroupUserList.clear()
             createGroupButton.setOnClickListener {
                 viewModel.createNewGroup(groupNameInputTextView.text.toString())
                 viewModel.navigate(GroupDialogFragmentDirections.actionCreateGroupDialogFragmentToHomeFragment())
@@ -97,6 +101,20 @@ class GroupDialogFragment : BaseDialogFragment<GroupDialogViewModel>() {
                 viewModel.navigate(GroupDialogFragmentDirections.actionCreateGroupDialogFragmentToHomeFragment())
             }
         }
+    }
+
+    private fun observeAllUsers() {
+        viewModel.listOfAllUsers.observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is State.Loading -> showLoadingView()
+                is State.Success -> adapter.updateData(result.data)
+                is State.Failed -> Toast.makeText(
+                    requireContext(),
+                    "Something went wrong! Try again",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
 

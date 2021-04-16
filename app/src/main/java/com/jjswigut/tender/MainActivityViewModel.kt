@@ -1,25 +1,33 @@
 package com.jjswigut.tender
 
-import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.jjswigut.core.base.BaseViewModel
+import com.jjswigut.data.FirestoreRepository
+import com.jjswigut.data.models.Event
+import com.jjswigut.data.models.Group
 import com.jjswigut.data.models.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainActivityViewModel : ViewModel() {
-    var isSigningIn = false
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    private val repo: FirestoreRepository
+) : BaseViewModel() {
 
 
-    fun saveUserToFirestore(user: FirebaseUser?, db: FirebaseFirestore) {
-        user?.let {
+    fun saveUserToFirestore() {
+        repo.currentUser?.let {
             val documentReference: DocumentReference =
-                db.collection("users").document(user.uid)
+                repo.db.collection("users").document(it.uid)
             documentReference.set(
                 User(
-                    userId = user.uid,
-                    name = user.displayName,
-                    email = user.email,
-                    profilePhotoUrl = user.photoUrl.toString()
+                    userId = it.uid,
+                    name = it.displayName,
+                    email = it.email,
+                    profilePhotoUrl = it.photoUrl.toString(),
+                    userEvents = arrayListOf<Event>(),
+                    userGroups = arrayListOf<Group>()
+
                 )
             )
         }

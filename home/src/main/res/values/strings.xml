@@ -15,4 +15,5 @@
     <string name="choose_date_button">Choose Date</string>
     <string name="lets_eat_with">Let\'s eat with %1$s</string>
     <string name="on_date">on %1$s</string>
+    <string name="save_event_button">Save Event</string>
 </resources>

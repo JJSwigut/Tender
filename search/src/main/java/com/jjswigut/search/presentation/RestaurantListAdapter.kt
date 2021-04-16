@@ -18,7 +18,8 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 
-class RestaurantListAdapter(
+class
+RestaurantListAdapter(
     private val swipeHandler: CardSwipeHandler,
     private val viewModel: RestaurantListViewModel,
     private val context: Context
@@ -93,19 +94,21 @@ class RestaurantListAdapter(
         }
         if (cardManager.topPosition - 1 == elements.size - 1) {
             with(AlertDialog.Builder(context)) {
-                setMessage("Would you like to use these results?")
+                setMessage("Would you like to share these results with the Group?")
                 setNegativeButton(
                     "Nah"
-                ) { dialog, id ->
+                ) { _, _ ->
+                    viewModel.isEventStarted = false
                     viewModel.navigate(RestaurantListFragmentDirections.actionRestaurantListFragmentToSearchFragment())
                 }
-                setPositiveButton("Sure!") { dialog, id ->
+                setPositiveButton("Sure!") { _, _ ->
                     with(viewModel) {
                         eventBeingBuilt.restaurantList = elements
                         eventBeingBuilt.userChoices =
-                            arrayListOf(Pair(currentUser, likedRestaurants))
+                            arrayListOf(hashMapOf(currentUser to likedRestaurants))
                         createEventInFirestore()
                         if (isEventStarted) {
+                            getGroupAndWriteEvent()
                             navigateToHomeFragment()
                         } else navigateToEventDialog()
                     }

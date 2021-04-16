@@ -1,6 +1,6 @@
 package com.jjswigut.data.remote
 
-import com.jjswigut.core.utils.Resource
+import com.jjswigut.core.utils.State
 import com.jjswigut.data.models.BusinessList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,20 +15,20 @@ class RemoteDataSource @Inject constructor(
         radius: Int,
         lat: Float,
         lon: Float
-    ): Flow<Resource<BusinessList>?> {
+    ): Flow<State<BusinessList>?> {
         return flow {
-            emit(Resource.loading(data = null))
+            emit(State.Loading)
             try {
-                emit(Resource.success(data = getResult {
+                emit(getResult {
                     service.getBusinesses(
                         foodType,
                         radius,
                         lat,
                         lon
                     )
-                }).data)
+                })
             } catch (exception: Exception) {
-                emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+                emit(State.Failed(exception.message.toString()))
 
             }
         }

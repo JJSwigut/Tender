@@ -1,0 +1,7 @@
+package com.jjswigut.core.utils
+
+sealed class State<out T> {
+    object Loading : State<Nothing>()
+    data class Success<T>(val data: T) : State<T>()
+    data class Failed(val message: String) : State<Nothing>()
+}

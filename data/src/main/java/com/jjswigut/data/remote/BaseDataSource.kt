@@ -2,18 +2,18 @@ package com.jjswigut.data.remote
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.jjswigut.core.utils.Resource
+import com.jjswigut.core.utils.State
 import retrofit2.Response
 
 abstract class BaseDataSource {
 
-    protected suspend fun <T> getResult(call: suspend () -> Response<T>): Resource<T> {
+    protected suspend fun <T> getResult(call: suspend () -> Response<T>): State<T> {
         try {
             val response = call()
             if (response.isSuccessful) {
                 val body = response.body()
                 Log.d(TAG, "getResult: Result is successful $body")
-                if (body != null) return Resource.success(body)
+                if (body != null) return State.Success(body)
             }
             return error(" ${response.code()} ${response.message()}")
         } catch (e: Exception) {
@@ -21,8 +21,8 @@ abstract class BaseDataSource {
         }
     }
 
-    private fun <T> error(message: String): Resource<T> {
+    private fun error(message: String): State<Nothing> {
         Log.d(TAG, "error: $message")
-        return Resource.error("Network call has failed for a following reason: $message")
+        return State.Failed("Network call has failed for a following reason: $message")
     }
 }

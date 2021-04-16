@@ -3,6 +3,7 @@ apply from: "$rootDir/gradle/feature.gradle"
 dependencies {
 
     implementation project (":core")
+    implementation project (":data")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
