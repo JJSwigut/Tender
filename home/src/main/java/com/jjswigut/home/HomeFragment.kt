@@ -15,6 +15,8 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.jjswigut.core.base.BaseFragment
 import com.jjswigut.core.utils.State
+import com.jjswigut.data.models.Event
+import com.jjswigut.data.models.Group
 import com.jjswigut.home.databinding.FragmentHomeBinding
 import com.jjswigut.home.presentation.adapters.EventListAdapter
 import com.jjswigut.home.presentation.adapters.GroupListAdapter
@@ -144,8 +146,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         viewModel.listOfUserGroups.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is State.Loading -> showLoadingView()
-                is State.Success -> result.data?.let { groupAdapter.updateData(it) }
+                is State.Success -> result.data?.let { groupAdapter.updateData(it as List<Group>) }
                 is State.Failed -> Log.d(TAG, "observeGroups: ${result.message}")
+                else -> Log.d(TAG, "observeGroups: dang")
             }
         })
     }
@@ -154,7 +157,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         viewModel.listOfUserEvents.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is State.Loading -> showLoadingView()
-                is State.Success -> result.data?.let { eventAdapter.updateData(it) }
+                is State.Success -> result.data?.let { eventAdapter.updateData(it as List<Event>) }
                 is State.Failed -> Log.d(TAG, "observeMatchingEvents: ${result.message}")
             }
 

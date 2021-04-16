@@ -107,7 +107,7 @@ class GroupDialogFragment : BaseDialogFragment<GroupDialogViewModel>() {
         viewModel.listOfAllUsers.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is State.Loading -> showLoadingView()
-                is State.Success -> adapter.updateData(result.data)
+                is State.Success -> result.data?.let { adapter.updateData(it) }
                 is State.Failed -> Toast.makeText(
                     requireContext(),
                     "Something went wrong! Try again",

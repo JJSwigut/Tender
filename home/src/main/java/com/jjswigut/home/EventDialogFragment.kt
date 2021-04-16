@@ -13,6 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.jjswigut.core.R
 import com.jjswigut.core.base.BaseDialogFragment
 import com.jjswigut.core.utils.State
+import com.jjswigut.data.models.Group
 import com.jjswigut.home.databinding.FragmentEventDialogBinding
 import com.jjswigut.home.presentation.EventDialogViewModel
 import com.jjswigut.home.presentation.adapters.EventGroupAdapter
@@ -84,7 +85,7 @@ class EventDialogFragment : BaseDialogFragment<EventDialogViewModel>() {
         viewModel.listOfUserGroups.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is State.Loading -> showLoadingView()
-                is State.Success -> adapter.updateData(result.data!!)
+                is State.Success -> adapter.updateData(result.data!! as List<Group>)
                 is State.Failed -> Toast.makeText(
                     requireContext(),
                     "Something went wrong! Try again",

@@ -58,8 +58,8 @@ class GroupDialogViewModel @Inject constructor(
     val listOfAllUsers = liveData(Dispatchers.IO) {
         emit(State.Loading)
         try {
-            repo.getAllUsers().collect { users ->
-                val listOfMinimalUsers = users.map { user: User ->
+            repo.allUsers.collect { users ->
+                val listOfMinimalUsers = users?.map { user: User ->
                     MinimalUser(
                         user.userId,
                         user.profilePhotoUrl,

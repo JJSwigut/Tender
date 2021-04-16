@@ -26,7 +26,7 @@ class HomeViewModel @Inject constructor(
     val listOfUserGroups = liveData(Dispatchers.IO) {
         emit(State.Loading)
         try {
-            repo.getUserGroups().collect { groups ->
+            repo.userGroups.collect { groups ->
                 emit(State.Success(groups))
             }
         } catch (exception: Exception) {
@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(
     val listOfUserEvents = liveData(Dispatchers.IO) {
         emit(State.Loading)
         try {
-            repo.getUserEvents().collect { events ->
+            repo.userEvents.collect { events ->
                 emit(State.Success(events))
             }
         } catch (exception: Exception) {

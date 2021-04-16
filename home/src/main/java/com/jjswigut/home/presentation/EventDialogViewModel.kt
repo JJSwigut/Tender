@@ -38,7 +38,7 @@ class EventDialogViewModel @Inject constructor(
     val listOfUserGroups = liveData(Dispatchers.IO) {
         emit(State.Loading)
         try {
-            repo.getUserGroups().collect { groups ->
+            repo.userGroups.collect { groups ->
                 emit(State.Success(groups))
             }
         } catch (exception: Exception) {
