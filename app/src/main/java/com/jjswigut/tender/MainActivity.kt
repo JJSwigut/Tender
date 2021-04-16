@@ -1,14 +1,10 @@
 package com.jjswigut.tender
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -17,20 +13,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-
-    private val viewModel: MainActivityViewModel by viewModels()
 
     private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
 
@@ -60,13 +47,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (shouldLaunchSignIn()) {
-            launchSignIn()
-            return
-        }
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -78,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             R.id.settings -> Toast.makeText(this, "No settings yet", Toast.LENGTH_SHORT).show()
             R.id.sign_out -> {
                 AuthUI.getInstance().signOut(this)
-                launchSignIn()
+                    .addOnCompleteListener { navController.navigate(R.id.home_navigation) }
             }
         }
         return true
@@ -88,44 +68,5 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun shouldLaunchSignIn(): Boolean {
-        return !viewModel.isSigningIn && FirebaseAuth.getInstance().currentUser == null
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            viewModel.isSigningIn = false
-            val response = IdpResponse.fromResultIntent(data)
-            if (resultCode == Activity.RESULT_OK) {
-                viewModel.saveUserToFirestore(auth.currentUser, db)
-                Log.d(TAG, "onActivityResult: ${auth.currentUser}")
-            } else {
-                Log.d(TAG, "onActivityResult: You failed")
-            }
-        }
-    }
-
-    private fun launchSignIn() {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(),
-            AuthUI.IdpConfig.GoogleBuilder().build(),
-            AuthUI.IdpConfig.FacebookBuilder().build()
-        )
-
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setTheme(R.style.LoginTheme)
-                .setIsSmartLockEnabled(false)
-                .build(),
-            RC_SIGN_IN
-        )
-    }
-
-    companion object {
-        private const val RC_SIGN_IN = 9001
-        private const val TAG = "MainActivity"
-    }
 }

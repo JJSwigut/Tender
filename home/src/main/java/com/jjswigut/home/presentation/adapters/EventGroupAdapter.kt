@@ -59,7 +59,7 @@ class EventGroupAdapter(
         fun bind(item: Group) {
             groupNameView.text = element().groupName
             groupCard.setOnClickListener {
-                viewModel.group = element()
+                viewModel.mGroup = element()
                 viewModel.groupSelection.value = element().groupName
             }
         }

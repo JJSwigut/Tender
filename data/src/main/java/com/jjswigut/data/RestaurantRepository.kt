@@ -1,6 +1,6 @@
 package com.jjswigut.data
 
-import com.jjswigut.core.utils.Resource
+import com.jjswigut.core.utils.State
 import com.jjswigut.data.models.BusinessList
 import com.jjswigut.data.remote.RemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ class RestaurantRepository @Inject constructor(
         radius: Int,
         lat: Float,
         lon: Float
-    ): Flow<Resource<BusinessList>?> {
+    ): Flow<State<BusinessList>?> {
         return remoteDataSource.getSearchResults(foodType, radius, lat, lon)
     }
 }

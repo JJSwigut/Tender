@@ -7,9 +7,7 @@
     android:layout_height="150dp"
     android:layout_margin="16dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="@dimen/cardview_elevation"
-    app:strokeColor="@color/primaryDarkColor"
-    app:strokeWidth="2dp">
+    app:cardElevation="@dimen/cardview_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"

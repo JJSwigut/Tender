@@ -3,26 +3,32 @@ package com.jjswigut.profile.ui
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.load
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.jjswigut.core.base.BaseViewModel
+import com.jjswigut.data.FirestoreRepository
 import com.jjswigut.profile.databinding.FragmentProfileBinding
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val repo: FirestoreRepository
+) : BaseViewModel() {
 
-class ProfileViewModel : ViewModel() {
 
     var currentImage: Uri? = null
     private val imageRef = Firebase.storage.reference
-    private val db = FirebaseFirestore.getInstance()
+    private val db = repo.db
+    val currentUser get() = repo.currentUser
 
 
     fun uploadProfilePicToStorage(

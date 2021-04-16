@@ -38,4 +38,8 @@ abstract class BaseFragment<ViewModel : BaseViewModel> : Fragment(), CoroutineSc
         super.onDestroy()
         job.cancel()
     }
+
+    fun showLoadingView() {
+
+    }
 }

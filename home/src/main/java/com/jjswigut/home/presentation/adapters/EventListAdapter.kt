@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jjswigut.core.utils.ListDiffCallback
-import com.jjswigut.data.models.MatchingEvent
+import com.jjswigut.data.models.Event
 import com.jjswigut.home.HomeViewModel
 import com.jjswigut.home.databinding.EventCardBinding
 
@@ -13,7 +13,7 @@ class EventListAdapter(
     private val viewModel: HomeViewModel
 ) : RecyclerView.Adapter<EventListAdapter.ViewHolder>() {
 
-    private val elements: ArrayList<MatchingEvent> = arrayListOf()
+    private val elements: ArrayList<Event> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,7 +36,7 @@ class EventListAdapter(
 
     override fun getItemCount(): Int = elements.size
 
-    fun updateData(newData: List<MatchingEvent>) {
+    fun updateData(newData: List<Event>) {
 
         val diffResult = DiffUtil.calculateDiff(
             ListDiffCallback(newList = newData, oldList = elements)
@@ -48,7 +48,7 @@ class EventListAdapter(
 
     inner class ViewHolder(
         private val binding: EventCardBinding,
-        private val elements: List<MatchingEvent>
+        private val elements: List<Event>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val foodTypeView = binding.foodTypeView
@@ -57,7 +57,7 @@ class EventListAdapter(
         private fun element() = elements[adapterPosition]
 
 
-        fun bind(item: MatchingEvent) {
+        fun bind(item: Event) {
             foodTypeView.text = element().foodType
             groupNameView.text = element().groupName
             dateView.text = element().date.toString()

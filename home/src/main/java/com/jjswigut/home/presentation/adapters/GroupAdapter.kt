@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jjswigut.core.utils.ListDiffCallback
-import com.jjswigut.data.models.User
+import com.jjswigut.data.models.MinimalUser
 import com.jjswigut.home.databinding.UserItemBinding
 import com.jjswigut.home.presentation.GroupDialogViewModel
 
@@ -16,7 +16,7 @@ class GroupAdapter(private val viewModel: GroupDialogViewModel) :
     RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
 
 
-    private val elements: ArrayList<User> = arrayListOf()
+    private val elements: ArrayList<MinimalUser> = arrayListOf()
 
 
     override fun onCreateViewHolder(
@@ -40,7 +40,7 @@ class GroupAdapter(private val viewModel: GroupDialogViewModel) :
 
     override fun getItemCount(): Int = elements.size
 
-    fun updateData(newData: List<User>) {
+    fun updateData(newData: List<MinimalUser>) {
 
         val diffResult = DiffUtil.calculateDiff(
             ListDiffCallback(newList = newData, oldList = elements)
@@ -52,7 +52,7 @@ class GroupAdapter(private val viewModel: GroupDialogViewModel) :
 
     inner class ViewHolder(
         private val binding: UserItemBinding,
-        private val elements: List<User>
+        private val elements: List<MinimalUser>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val cardView = binding.userCardView
@@ -61,7 +61,7 @@ class GroupAdapter(private val viewModel: GroupDialogViewModel) :
         private fun element() = elements[adapterPosition]
 
 
-        fun bind(item: User) {
+        fun bind(item: MinimalUser) {
             imageView.load(element().profilePhotoUrl)
             nameView.text = element().name
 

@@ -15,7 +15,12 @@ abstract class BaseDialogFragment<ViewModel : BaseViewModel> : DialogFragment() 
         viewModel.navCommand.observe(viewLifecycleOwner, { command ->
             when (command) {
                 is NavCommand.To -> findNavController().navigate(command.directions)
+                is NavCommand.DeepLink -> findNavController().navigate(command.deepLink)
             }
         })
+    }
+
+    fun showLoadingView() {
+
     }
 }

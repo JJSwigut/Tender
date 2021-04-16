@@ -66,15 +66,15 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deleteGroupButton"
-                style="@style/Widget.MaterialComponents.Button"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="0dp"
                 android:layout_margin="@dimen/standard_margin"
                 android:clickable="true"
                 android:focusable="true"
                 android:visibility="gone"
                 app:icon="@drawable/ic_delete"
-                app:iconGravity="start"
+                app:iconPadding="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
