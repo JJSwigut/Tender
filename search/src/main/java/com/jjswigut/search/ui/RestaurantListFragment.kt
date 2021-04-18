@@ -104,6 +104,9 @@ class RestaurantListFragment : BaseFragment<RestaurantListViewModel>() {
                 foodType = args.foodType
             }
 
+        } else {
+            viewModel.isEventStarted = false
+            viewModel.eventBeingBuilt.foodType = args.foodType
         }
     }
 

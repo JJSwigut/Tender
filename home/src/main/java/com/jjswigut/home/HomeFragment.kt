@@ -36,7 +36,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         groupAdapter = GroupListAdapter()
-        eventAdapter = EventListAdapter(viewModel)
+        eventAdapter = EventListAdapter()
     }
 
     override fun onCreateView(

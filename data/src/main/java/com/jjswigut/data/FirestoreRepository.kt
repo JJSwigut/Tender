@@ -14,11 +14,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class FirestoreRepository @Inject constructor(
-    val db: FirebaseFirestore,
-    val auth: FirebaseAuth
+    val db: FirebaseFirestore
 ) : FireStoreFlowWrapper() {
 
-
+    val auth get() = FirebaseAuth.getInstance()
     val currentUserId get() = auth.currentUser?.uid
     val currentUser: FirebaseUser? get() = auth.currentUser
     val userCollection get() = db.collection(users)

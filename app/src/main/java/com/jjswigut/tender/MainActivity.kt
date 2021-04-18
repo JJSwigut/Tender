@@ -46,13 +46,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settings -> Toast.makeText(this, "No settings yet", Toast.LENGTH_SHORT).show()
@@ -67,6 +64,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
-
 }

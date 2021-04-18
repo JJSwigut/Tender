@@ -1,6 +1,5 @@
 package com.jjswigut.data
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jjswigut.data.remote.RemoteDataSource
 import dagger.Module
@@ -22,13 +21,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideFireStoreRepository(
-        firestore: FirebaseFirestore,
-        firebaseAuth: FirebaseAuth
-    ) = FirestoreRepository(firestore, firebaseAuth)
+        firestore: FirebaseFirestore
+    ) = FirestoreRepository(firestore)
 
     @Provides
     fun provideFireStore(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    @Provides
-    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }

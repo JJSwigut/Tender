@@ -14,7 +14,6 @@ class MainActivityViewModel @Inject constructor(
     private val repo: FirestoreRepository
 ) : BaseViewModel() {
 
-
     fun saveUserToFirestore() {
         repo.currentUser?.let {
             val documentReference: DocumentReference =

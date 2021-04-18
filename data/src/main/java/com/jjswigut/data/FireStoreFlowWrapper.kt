@@ -2,6 +2,7 @@ package com.jjswigut.data
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.jjswigut.data.models.Event
 import com.jjswigut.data.models.Group
 import com.jjswigut.data.models.User
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +48,7 @@ abstract class FireStoreFlowWrapper {
                 val user = it.toObject<User>()
 
                 when (clazz) {
-                    User::class -> offer(user?.userEvents)
+                    Event::class -> offer(user?.userEvents)
                     Group::class -> offer(user?.userGroups)
                 }
             }

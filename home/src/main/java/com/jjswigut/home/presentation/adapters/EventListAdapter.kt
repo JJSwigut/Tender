@@ -6,12 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jjswigut.core.utils.ListDiffCallback
 import com.jjswigut.data.models.Event
-import com.jjswigut.home.HomeViewModel
 import com.jjswigut.home.databinding.EventCardBinding
 
-class EventListAdapter(
-    private val viewModel: HomeViewModel
-) : RecyclerView.Adapter<EventListAdapter.ViewHolder>() {
+class EventListAdapter : RecyclerView.Adapter<EventListAdapter.ViewHolder>() {
 
     private val elements: ArrayList<Event> = arrayListOf()
 

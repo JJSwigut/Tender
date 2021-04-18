@@ -1,5 +1,4 @@
 apply from: "$rootDir/gradle/feature.gradle"
-apply plugin: 'kotlin-android-extensions'
 
 dependencies {
 
