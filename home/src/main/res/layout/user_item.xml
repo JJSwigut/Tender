@@ -9,10 +9,10 @@
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/secondaryLightColor"
+    app:cardBackgroundColor="@color/primaryColor"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="@dimen/cardview_elevation"
-    app:checkedIconTint="@color/primaryLightColor">
+    app:checkedIconTint="@color/primaryDarkColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

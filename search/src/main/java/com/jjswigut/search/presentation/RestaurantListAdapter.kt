@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.jjswigut.core.utils.ListDiffCallback
-import com.jjswigut.data.models.BusinessList
+import com.jjswigut.data.models.MinimalRestaurant
 import com.jjswigut.search.databinding.ItemRestaurantBinding
 import com.jjswigut.search.ui.RestaurantListFragmentDirections
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
@@ -27,7 +27,7 @@ RestaurantListAdapter(
 
     val cardManager = CardStackLayoutManager(context, this)
 
-    private val elements: ArrayList<BusinessList.Businesses> = arrayListOf()
+    private val elements: ArrayList<MinimalRestaurant> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -50,7 +50,7 @@ RestaurantListAdapter(
 
     override fun getItemCount(): Int = elements.size
 
-    fun updateData(newData: List<BusinessList.Businesses>) {
+    fun updateData(newData: List<MinimalRestaurant>) {
 
         val diffResult = DiffUtil.calculateDiff(
             ListDiffCallback(newList = newData, oldList = elements)
@@ -62,7 +62,7 @@ RestaurantListAdapter(
 
     inner class ViewHolder(
         private val binding: ItemRestaurantBinding,
-        private val elements: List<BusinessList.Businesses>
+        private val elements: List<MinimalRestaurant>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val imageView = binding.cardImage
@@ -72,7 +72,7 @@ RestaurantListAdapter(
         private fun element() = elements[adapterPosition]
 
 
-        fun bind(item: BusinessList.Businesses) {
+        fun bind(item: MinimalRestaurant) {
             imageView.load(element().imageUrl)
             nameView.text = element().name
             ratingView.text = "Rating: ${element().rating}"

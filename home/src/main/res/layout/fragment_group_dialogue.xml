@@ -39,6 +39,7 @@
                     android:maxLines="1"
                     android:textSize="@dimen/regular_header"
                     android:textStyle="bold"
+                    android:backgroundTint="@color/primaryColor"
                     tools:text="The Kittens" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/standard_margin"
                 android:text="@string/create_group_button"
+                android:textColor="@color/secondaryTextColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -74,6 +76,7 @@
                 android:focusable="true"
                 android:visibility="gone"
                 app:icon="@drawable/ic_delete"
+                app:iconTint="@color/secondaryTextColor"
                 app:iconPadding="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

@@ -13,9 +13,9 @@ import com.jjswigut.core.base.BaseViewModel
 import com.jjswigut.core.utils.State
 import com.jjswigut.data.FirestoreRepository
 import com.jjswigut.data.RestaurantRepository
-import com.jjswigut.data.models.BusinessList
 import com.jjswigut.data.models.Event
 import com.jjswigut.data.models.Group
+import com.jjswigut.data.models.MinimalRestaurant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,10 +30,10 @@ class RestaurantListViewModel @Inject constructor(
 
     val currentUser = firestorerepo.currentUserId
 
-    private val _restaurantListLiveData = MutableLiveData<List<BusinessList.Businesses>>()
-    val restaurantListLiveData: LiveData<List<BusinessList.Businesses>> get() = _restaurantListLiveData
+    private val _restaurantListLiveData = MutableLiveData<List<MinimalRestaurant>>()
+    val restaurantListLiveData: LiveData<List<MinimalRestaurant>> get() = _restaurantListLiveData
 
-    val likedRestaurants = arrayListOf<BusinessList.Businesses?>()
+    val likedRestaurants = arrayListOf<MinimalRestaurant?>()
 
     var isEventStarted: Boolean = false
 
@@ -41,13 +41,23 @@ class RestaurantListViewModel @Inject constructor(
 
     var mGroup: Group? = null
 
+
     fun getRestaurants(foodType: String, radius: Int, lat: Float, lon: Float) =
         viewModelScope.launch {
             repo.getRestaurants(foodType, radius, lat, lon).collect { restaurants ->
                 when (restaurants) {
                     is State.Loading -> Log.d(TAG, "getRestaurants: loading")
                     is State.Success -> _restaurantListLiveData.value =
-                        restaurants.data.businesses!!
+                        restaurants.data.businesses!!.map { business ->
+                            MinimalRestaurant(
+                                id = business.id,
+                                name = business.name,
+                                imageUrl = business.imageUrl,
+                                phone = business.phone,
+                                rating = business.rating,
+                                price = business.price
+                            )
+                        }
                     is State.Failed -> Log.d(TAG, "getRestaurants: ${restaurants.message}")
                 }
             }
