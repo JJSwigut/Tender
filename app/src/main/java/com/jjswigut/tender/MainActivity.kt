@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,8 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+
 
         val btmNavMain = findViewById<BottomNavigationView>(R.id.btm_nav_main)
         val appBarConfiguration: AppBarConfiguration = AppBarConfiguration.Builder(
@@ -35,8 +33,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.profile_navigation
             )
         ).build()
+        findViewById<Toolbar>(R.id.toolbar).setupWithNavController(
+            navController,
+            appBarConfiguration
+        )
         btmNavMain.setupWithNavController(navController)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
